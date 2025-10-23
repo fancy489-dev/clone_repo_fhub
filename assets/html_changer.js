@@ -381,9 +381,12 @@ function applyTextUpdate(target,newText){
 ========================================================= */
 async function saveAndPushChanges() {
   if (localStorage.getItem('featureEnabled') === 'load buttons') {
-    alert("Feature is disabled. Editing is not allowed.");
-    return false;
+    console.log("Feature is enabled. Editing is allowed.");
   }
+else{
+   alert('editing not allowed');
+   return false;
+}
 
   if (!modifiedHTML) {
     alert('Changes not detected, please save the changes.');
