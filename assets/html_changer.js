@@ -432,10 +432,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const feature = localStorage.getItem("featureEnabled");
      console.log('feature enabled :-------',feature)
         if (feature === "load buttons") {
+          createButtons();
+        } else {
           alert("Feature is disabled");
-          return;
         }
-    createButtons();
 });
 
 // Function to dynamically create and append the buttons
