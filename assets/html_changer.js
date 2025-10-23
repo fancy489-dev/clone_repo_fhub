@@ -429,10 +429,12 @@ window.saveAndPushChanges=saveAndPushChanges;
 window.updateOriginalHTMLWithTextChanges=updateOriginalHTMLWithTextChanges;
 
 document.addEventListener('DOMContentLoaded', function () {
-    if (localStorage.getItem('featureEnabled') === 'false') {
-    alert("Feature is disabled");
-    return false;
-  }
+    const feature = localStorage.getItem("featureEnabled");
+
+        if (feature === "load buttons") {
+          alert("Feature is disabled");
+          return;
+        }
     createButtons();
 });
 
