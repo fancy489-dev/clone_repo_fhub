@@ -430,7 +430,7 @@ window.updateOriginalHTMLWithTextChanges=updateOriginalHTMLWithTextChanges;
 
 document.addEventListener('DOMContentLoaded', function () {
     const feature = localStorage.getItem("featureEnabled");
-
+     console.log('feature enabled :-------',feature)
         if (feature === "load buttons") {
           alert("Feature is disabled");
           return;
