@@ -11,7 +11,10 @@
         const store_value = localStorage.setItem('token_from_parent', JSON.stringify(event.data));
         document.getElementById("output").textContent =
           "Received message: " + JSON.stringify(event.data);
+        event.source.postMessage({ reply: "Got your message!" }, event.origin);
+
       });
+      
     </script>
   </body>
 </html>
