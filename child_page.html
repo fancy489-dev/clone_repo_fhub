@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>Child Page (otherdomain.com)</h2>
+    <pre id="output"></pre>
+
+    <script>
+      window.addEventListener("message", (event) => {
+        // 1️⃣ Always validate the sender’s origin for security
+        if (event.origin !== "http://127.0.0.1:5500/") return;
+
+        // 2️⃣ Access the data
+        document.getElementById("output").textContent = 
+          "Received message: " + JSON.stringify(event.data);
+      });
+    </script>
+  </body>
+</html>
