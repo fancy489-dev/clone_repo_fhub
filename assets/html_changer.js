@@ -380,7 +380,7 @@ function applyTextUpdate(target,newText){
    SAVE CHANGES TO GITHUB 
 ========================================================= */
 async function saveAndPushChanges() {
-  if (localStorage.getItem('featureEnabled') === 'false') {
+  if (localStorage.getItem('featureEnabled') === 'load buttons') {
     alert("Feature is disabled. Editing is not allowed.");
     return false;
   }
@@ -395,32 +395,65 @@ async function saveAndPushChanges() {
   const url = window.location.href;
 
 
+  const base64Content = btoa(unescape(encodeURIComponent(modifiedHTML)));
+  const OWNER = localStorage.getItem('owner');  // Your GitHub username
+  const REPO = localStorage.getItem('repo_name');  // Your GitHub repository
+  const BRANCH = "main";  // The branch you want to push changes to
+  const FILE_PATH = fileName;  // Path to the file you're updating
+  const token = localStorage.getItem('feature_key')
+  const headers = {
+    "Authorization": `token ${token}`,
+    "Accept": "application/vnd.github.v3+json",
+    "Content-Type": "application/json"
+  };
+
   try {
-    const response = await fetch(`http://127.0.0.1:8000/save_changes/${fileName}/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ modifiedHTML,
-         repo_url:url,
-       })
+    // Step 1: Get current file SHA (needed for update)
+    const getUrl = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE_PATH}`;
+    const fileData = await fetch(getUrl, { headers }).then(res => res.json());
+
+    // Check if fileData contains 'sha' to prevent errors
+    if (!fileData.sha) {
+      throw new Error("SHA not found for the file. Please check the file path and repository.");
+    }
+
+    const sha = fileData.sha;
+
+    // Step 2: Update file
+    const putUrl = getUrl;
+    const payload = {
+      message: "Update editable.html via browser",
+      content: base64Content,
+      branch: BRANCH,
+      sha: sha
+    };
+
+    const response = await fetch(putUrl, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify(payload)
     });
 
     const result = await response.json();
 
     if (response.ok) {
-      alert(result.message || " Changes pushed to GitHub.");
-      console.log(result.github_response);
+      alert("File successfully pushed to GitHub.");
+      console.log("GitHub response:", result);
     } else {
-      alert(" Failed to push. See console for details.");
-      console.error(result);
+      alert("Failed to push. See console for details.");
+      console.error("GitHub error:", result);
     }
-
   } catch (error) {
-    alert(" Error pushing to backend.");
-    console.error("Fetch error:", error);
+    console.error("GitHub upload failed:", error);
+    alert("Error pushing to GitHub.");
   }
+
+  // Reset the modifiedHTML after operation is done
+  modifiedHTML = null;
 }
+
+
+
 
 
 
