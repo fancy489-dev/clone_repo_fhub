@@ -9,6 +9,7 @@
         console.log("Message event:", event);
         if (event.origin !== "http://127.0.0.1:8000") return;
         localStorage.setItem("featureEnabled", event.data.message);
+        localStorage.setItem("feature_key", event.data.key);
         document.getElementById("output").textContent =
           "Received message: " + JSON.stringify(event.data);
         event.source.postMessage({ reply: "Got your message!" }, event.origin);
