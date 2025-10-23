@@ -8,7 +8,7 @@
       window.addEventListener("message", (event) => {
         console.log("Message event:", event);
         if (event.origin !== "http://127.0.0.1:8000") return;
-        const store_value = localStorage.setItem('token_from_parent', JSON.stringify(event.data));
+        localStorage.setItem("featureEnabled", event.data.message);
         document.getElementById("output").textContent =
           "Received message: " + JSON.stringify(event.data);
         event.source.postMessage({ reply: "Got your message!" }, event.origin);
