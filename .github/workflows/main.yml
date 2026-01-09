@@ -26,6 +26,6 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: "72ba13f5ae3c9cd3d1caacd6862174f1"
         run: |
           wrangler pages deploy . \
-            --project-name=git \
+            --project-name=gitt \
             --branch=main \
             --commit-dirty
