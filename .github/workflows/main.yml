@@ -20,11 +20,6 @@ jobs:
       - name: Install Wrangler
         run: npm install -g wrangler
 
-      - name: Build site
-        run: |
-          npm install
-          npm run build
-
       - name: Deploy to Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: "-FEff1YD-6l6Z2XMBL2EoDy2XDBeenKXxDSAtd1E"
